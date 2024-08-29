@@ -1,0 +1,36 @@
+/* styles.css */
+
+/* General body styling */
+body {
+    background-color: burlywood; /* Beige color */
+    color: black;
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: rgba(199, 95, 21, 0.687); /* Brown color */
+}
+
+.navbar-brand,
+.nav-link {
+    color: #fff !important; /* White text for contrast */
+}
+
+.nav-link:hover {
+    color: rgba(199, 95, 21, 0.687) !important; /* Beige color on hover for better visibility */
+}
+
+.navbar-toggler-icon {
+    background-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>');
+}
+
+.form-control {
+    border-radius: 50px;
+    padding: 10px;
+    border:1px solid #ced4da 
+}
+
+.link-brown {
+    color:brown;
+}

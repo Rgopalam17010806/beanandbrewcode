@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block title %}Drinks{% endblock %}
+
+{% block content %}
+<style>
+    .link-brown {
+        color: brown;
+    }
+</style>
+
+    <h1>Wanna drink? Well, you came to the right place!</h1>
+    <p>Our drinks are irresistible.</p>
+
+    <div class="container">
+        <div class="row">
+            <!-- Links -->
+            <div class="col-12 mb-3 d-flex justify-content-start align-items-center">
+                <a class="btn btn-link link-brown me-3" href="#hot-drinks">Hot Drinks</a>
+                <a class="btn btn-link link-brown link-opacity-75-hover me-3" href="#cold-drinks">Cold Drinks</a>
+            </div>
+        </div>
+
+        <!-- Hot Drinks Section -->
+        <div class="row" id="hot-drinks">
+            <!-- Card 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static', filename='images/tea.jpg') }}" class="card-img-top" alt="Tea">
+                    <div class="card-body">
+                        <h5 class="card-title">Tea</h5>
+                        <p class="card-text">Our tea is made from tea leaves like no other.</p>
+                        <p class="card-text">£1.20</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static', filename='images/masalatea.jpg')}}" class="card-img-top" alt="MasalaTea">
+                    <div class="card-body">
+                        <h5 class="card-title">Masala Tea</h5>
+                        <p class="card-text">Flavours of India have been brought into a cup.</p>
+                        <p class="card-text">£1.50</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static', filename='images/greentea.jpg')}}" class="card-img-top" alt="GreenTea">
+                    <div class="card-body">
+                        <h5 class="card-title">Green Tea</h5>
+                        <p class="card-text">Green tea like no other.</p>
+                        <p class="card-text">£1.20</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static',filename='images/turkishtea.jpg')}}" class="card-img-top" alt="TurkishTea">
+                    <div class="card-body">
+                        <h5 class="card-title">Turkish Tea</h5>
+                        <p class="card-text">Flavours of Türkiye in a cup. Flavours include Jasmine, Apple, Berry.</p>
+                        <p class="card-text">£1.25</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static',filename='images/esspresso.jpg')}}" class="card-img-top" alt="Esspresso">
+                    <div class="card-body">
+                        <h5 class="card-title">Espresso</h5>
+                        <p class="card-text">Rich and strong espresso.</p>
+                        <p class="card-text">£2.00</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static', filename='images/hotchocolate2.jpg')}}" class="card-img-top" alt="hotchocolate2">
+                    <div class="card-body">
+                        <h5 class="card-title">Hot Chocolate</h5>
+                        <p class="card-text">Warm and creamy hot chocolate.</p>
+                        <p class="card-text">£2.50</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cold Drinks Section -->
+        <div class="row mt-5" id="cold-drinks">
+            <!-- Card 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for ('static',filename='images/icedcoffee2.jpg')}}" class="card-img-top" alt="icedcoffee2">
+                    <div class="card-body">
+                        <h5 class="card-title">Iced Coffee</h5>
+                        <p class="card-text">Cool and refreshing iced coffee.</p>
+                        <p class="card-text">£2.00</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static',filename='images/lemonade3.jpg')}}" class="card-img-top" alt="lemonade3">
+                    <div class="card-body">
+                        <h5 class="card-title">Lemonade</h5>
+                        <p class="card-text">Fresh and tangy lemonade.</p>
+                        <p class="card-text">£1.80</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static',filename='images/icedtea2.jpg')}}" class="card-img-top" alt="icedtea2">
+                    <div class="card-body">
+                        <h5 class="card-title">Iced Tea</h5>
+                        <p class="card-text">Refreshing iced tea with lemon.</p>
+                        <p class="card-text">£1.50</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static',filename='images/smoothie.jpg')}}" class="card-img-top" alt="Smoothie">
+                    <div class="card-body">
+                        <h5 class="card-title">Smoothie</h5>
+                        <p class="card-text">A fruity blend of fresh berries and yogurt.</p>
+                        <p class="card-text">£2.50</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+
+                    <div class="card-body">
+                        <img src="{{ url_for('static',filename='images/milkshake.jpg')}}" class="card-img-top" alt="Milkshake">
+                        <h5 class="card-title">Milkshake</h5>
+                        <p class="card-text">Creamy chocolate or vanilla milkshake.</p>
+                        <p class="card-text">£2.80</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static',filename='images/coldbrew.jpg')}}" class="card-img-top" alt="ColdBrew">
+                    <div class="card-body">
+                        <h5 class="card-title">Cold Brew</h5>
+                        <p class="card-text">Smooth and bold cold brew coffee.</p>
+                        <p class="card-text">£2.20</p>
+                        <a href="#" class="btn btn-primary">Purchase now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

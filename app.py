@@ -5,6 +5,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField
 from wtforms.validators import InputRequired, Length, ValidationError, DataRequired, Email
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager,current_user
+from flask_login import login_user
+from flask_login import logout_user
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -12,8 +15,20 @@ app.config['SECRET_KEY'] = 'thissecretkey'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+login_manager.login_view = 'login'
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(20),nullable=False)
+    lastname = db.Column(db.String(20),nullable = False)
     email = db.Column(db.String(30), nullable=False, unique=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
@@ -46,31 +61,55 @@ def home():
 def index():
     return render_template('home.html')
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if form.username.data == 'admin' and form.password.data == 'password':
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember_me.data)
             flash('Login successful!', 'success')
             return redirect(url_for('home'))
         else:
             flash('Invalid username or password', 'danger')
-            return redirect(url_for('home'))
     return render_template('login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
-
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+        # Hash the user's password
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        print(f"Hashed Password: {hashed_password}")
-        new_user = User(username=form.username.data, password=hashed_password)
+        
+        # Create a new user instance
+        new_user = User(email=form.email.data,
+                        username=form.username.data,
+                        password=hashed_password)
+        
+        # Add the user to the database
         db.session.add(new_user)
         db.session.commit()
-        flash('Registration successful!', 'success')
+        
+        # Log the user in automatically
+        login_user(new_user)
+        
+        # Flash a success message
+        flash('Registration successful! You are now logged in.', 'success')
+        
+        # Redirect to the home page or another page of your choice
         return redirect(url_for('home'))
+    
+    # Render the registration template if the form is not validated
     return render_template('register.html', form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('home'))
+
 
 @app.route('/aboutus')
 def aboutus():

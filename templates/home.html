@@ -2,10 +2,82 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1>Welcome to Bean and Brew.</h1>
-    <p>Delicious hot and cold beverages and baked goods awaits for you.</p>
-    <p>Please check us out on Facebook, Instagram and X</p>
+    <style>
+        /* Flexbox container to align image and text side by side */
+        .container {
+            display: flex;
+            align-items: flex-start;
+            margin: 0;
+            padding: 20px;
+        }
 
-    <img src="{{ url_for('static', filename='images/beanandbrew.jpg') }}" alt="Description of image" class="img-fluid">
+        /* Image styling */
+        .hero-image {
+            width: 50%;
+            height: auto;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        /* Text container styling */
+        .text-content {
+            width: 50%;
+            padding-left: 20px;
+        }
+
+        /* Styling for the buttons */
+        .book-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+
+        /* Hover effect for buttons */
+        .book-button:hover {
+            background-color: #A0522D;
+        }
+
+        /* Styling for the Instagram icon */
+        .social-icon {
+            font-size: 24px;
+            color: #8B4513;
+            margin-top: 20px; /* Space between button and icon */
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: block; /* Make sure it takes up a line by itself */
+        }
+
+        /* Hover effect for the Instagram icon */
+        .social-icon:hover {
+            color: #A0522D;
+        }
+    </style>
+
+    <!-- Container for the image and text -->
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/beanandbrew.jpg') }}" alt="Description of image" class="hero-image">
+        <div class="text-content">
+            <h1>Welcome to Bean and Brew.</h1>
+            <p>Delicious hot and cold beverages and baked goods await you.</p>
+            <p>Please check us out on Facebook, Instagram, and X</p>
+            <!-- Buttons for actions -->
+            <a href="{{ url_for('tablebooking')}}" class="book-button">Book a Table</a>
+            <a href="{{ url_for('login')}}" class="book-button">Login</a>
+            <a href="{{ url_for('register')}}" class="book-button">Register</a>
+            <!-- Instagram icon placed beneath the buttons -->
+            <a href="https://www.instagram.com" target="_blank">
+                <i class="fa-brands fa-instagram social-icon"></i>
+            </a>
+        </div>
+    </div>
 {% endblock %}
-

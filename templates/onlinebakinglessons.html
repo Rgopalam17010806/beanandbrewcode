@@ -4,4 +4,112 @@
 {% block content %}
     <h1>Join Our Online Baking Lessons</h1>
     <p>Book a spot in our interactive online baking lessons, where you can learn from our expert bakers from the comfort of your home. Perfect for all skill levels.</p>
+
+    <div class="container">
+        <div class="row">
+            <!-- Card 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/buttercroissant.jpg') }}" alt="Butter Croissant">
+                    <div class="card-body">
+                        <h5 class="card-title">How to bake Butter Croissants</h5>
+                        <p class="card-text">Learn how to bake croissants.</p>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/painauchocolat.jpg') }}" alt="Pain au Chocolat">
+                    <div class="card-body">
+                        <h5 class="card-title">How to bake Pain au Chocolat</h5>
+                        <p class="card-text">Learn how to bake the flakiest Pain au Chocolat.</p>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/pistachocroissant.jpg') }}" alt="Pistachio Croissant">
+                    <div class="card-body">
+                        <h5 class="card-title">How to bake Pistachio Croissants</h5>
+                        <p class="card-text">Learn how to bake croissants with a pistachio flavor.</p>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/chocolatecroissant.jpg') }}" alt="Chocolate Croissant">
+                    <div class="card-body">
+                        <h5 class="card-title">How to bake Chocolate Croissants</h5>
+                        <p class="card-text">Learn how to bake the most amazing Chocolate Croissants.</p>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/pecanandmapleplait.jpg') }}" alt="Pecan and Maple Plait">
+                    <div class="card-body">
+                        <h5 class="card-title">How to bake a Pecan and Maple Plait</h5>
+                        <p class="card-text">Learn how to bake an amazing Pecan and Maple Plait.</p>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Login Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    You haven't logged in or registered yet. Please log in or register to book a lesson.
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+                    <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class ="modal fade" id="exampleModalTimings" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="mode-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Class Timings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Monday - 10:00 AM to 12:00 PM</li>
+                        <li class="list-group-item">Wednesday - 2:00 PM to 4:00 PM</li>
+                        <li class="list-group-item">Friday - 6:00 PM to 8:00 PM</li>
+                    </ul>
+                </div>
+                <div class="modal_footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Select your prefered timing</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+
+

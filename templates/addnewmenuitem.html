@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Add a New Menu Item{% endblock %}
+
+{% block content %}
+<h1>Add a New Menu Item</h1>
+<p>Fill in the form below to add a new item to the menu.</p>
+
+<form method="POST" action="">
+    {{ form.hidden_tag() }}  <!-- CSRF token -->
+    
+    <div class="mb-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.description.label(class="form-label") }}
+        {{ form.description(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.price.label(class="form-label") }}
+        {{ form.price(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.category.label(class="form-label") }}
+        {{ form.category(class="form-select") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+{% endblock %}

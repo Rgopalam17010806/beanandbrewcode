@@ -6,6 +6,8 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateF
 from wtforms.validators import InputRequired, Length, ValidationError, DataRequired, Email
 from flask_bcrypt import Bcrypt
 from datetime import date
+from functools import wraps 
+from flask import abort
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -28,6 +30,8 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(30), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
+    role = db.Column(db.String(10),nullable=False,default='user')
+
 
 class TableBookingModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -52,6 +56,7 @@ class RegisterForm(FlaskForm):
     dateofbirth = DateField('Date of Birth', format='%Y-%m-%d', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
+    role = SelectField('Role',choices=[('user','User'),('staff','Staff'),('manager','Manager')],default='user')
     submit = SubmitField('Register')
 
     def validate_email(self, email):
@@ -141,7 +146,8 @@ def register():
         new_user = User(firstname=form.firstname.data,
                         lastname=form.lastname.data,
                         email=form.email.data,
-                        password=hashed_password)
+                        password=hashed_password,
+                        role=form.role.data)
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)

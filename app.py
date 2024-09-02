@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user
+from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, SelectField
 from wtforms.validators import InputRequired, Length, ValidationError, DataRequired, Email
@@ -33,7 +33,7 @@ class User(db.Model, UserMixin):
     role = db.Column(db.String(10),nullable=False,default='user')
 
 
-class TableBookingModel(db.Model):
+class TableBooking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
@@ -91,8 +91,13 @@ class NewMenuItemForm(FlaskForm):
     category = SelectField('Category', choices=[('Drinks', 'Drinks'), ('Savory', 'Savory'), ('Sweet', 'Sweet')])
     submit = SubmitField('Add Menu Item')
 
+
 @app.route('/addnewmenuitem', methods=['GET', 'POST'])
+@login_required
 def add_new_menu_item():
+    if load_user(current_user.id).role != 'admin':
+        flash('Sorry this is only for admins!', 'error')
+        return redirect(url_for('home'))
     form = NewMenuItemForm()
     if form.validate_on_submit():
         # Clean the price input by removing currency symbols and commas
@@ -155,6 +160,7 @@ def register():
         return redirect(url_for('home'))
     return render_template('register.html', form=form)
 
+@login_required
 @app.route('/logout')
 def logout():
     logout_user()

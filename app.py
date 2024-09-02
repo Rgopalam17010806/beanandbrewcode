@@ -184,7 +184,7 @@ def tablebooking():
     form = TableBooking()
     today_date = date.today().strftime('%Y-%m-%d')
     if form.validate_on_submit():
-        new_booking = TableBookingModel(
+        new_booking = TableBooking(
             firstname=form.firstname.data,
             lastname=form.lastname.data,
             location=form.location.data,

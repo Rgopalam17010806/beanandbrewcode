@@ -47,19 +47,25 @@
             background-color: #A0522D;
         }
 
-        /* Styling for the Instagram icon */
+        /* Styling for social media icons */
         .social-icon {
-            font-size: 24px;
-            color: #8B4513;
+            font-size: 100px; /* Adjust size as needed */
+            color: #8B4513; /* Initial color */
             margin-top: 20px; /* Space between button and icon */
             cursor: pointer;
             transition: color 0.3s ease;
-            display: block; /* Make sure it takes up a line by itself */
+            text-decoration: none; /* Ensure no underline */
         }
 
-        /* Hover effect for the Instagram icon */
+        /* Hover effect for social media icons */
         .social-icon:hover {
-            color: #A0522D;
+            color: #A0522D; /* Change color on hover */
+        }
+
+        /* Remove any unwanted borders or backgrounds */
+        .social-icon svg, .social-icon i {
+            border: none; /* Remove borders */
+            background: none; /* Remove backgrounds */
         }
     </style>
 
@@ -69,14 +75,20 @@
         <div class="text-content">
             <h1>Welcome to Bean and Brew.</h1>
             <p>Delicious hot and cold beverages and baked goods await you.</p>
-            <p>Please check us out on Facebook, Instagram, and X</p>
+            <p>Please check us out on Facebook, Instagram, and Twitter</p>
             <!-- Buttons for actions -->
             <a href="{{ url_for('tablebooking')}}" class="book-button">Book a Table</a>
             <a href="{{ url_for('login')}}" class="book-button">Login</a>
             <a href="{{ url_for('register')}}" class="book-button">Register</a>
-            <!-- Instagram icon placed beneath the buttons -->
-            <a href="https://www.instagram.com" target="_blank">
-                <i class="fa-brands fa-instagram social-icon"></i>
+            <!-- Social media icons placed beneath the buttons -->
+            <a href="https://www.instagram.com" target="_blank" class="social-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com" target="_blank" class="social-icon">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="social-icon">
+                <i class="fab fa-twitter"></i>
             </a>
         </div>
     </div>

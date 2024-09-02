@@ -4,13 +4,48 @@
 {% block content %}
     <h1>Our Locations</h1>
     <p>Visit us at our three locations: Leeds, Harrogate, and Knaresborough Castle. Each location offers the same exceptional quality and service.</p>
-    <div style="margin-left: -20px;">
-        <iframe src="https://www.google.com/maps/d/u/0/embed?mid=15yLOXjPgoE9z0ZWwydYTfKsnNqTkT64&ehbc=2E312F" width="640" height="480"
-         height="450" 
-         style="border:0;" 
-         allowfullscreen="" 
-         loading="lazy">
-        </iframe>
+    
+    <div style="display: flex; align-items: flex-start;">
+        <!-- Map Container -->
+        <div style="margin-right: 20px;">
+            <iframe src="https://www.google.com/maps/d/u/0/embed?mid=15yLOXjPgoE9z0ZWwydYTfKsnNqTkT64&ehbc=2E312F" width="480" height="360"
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy">
+            </iframe>
+        </div>
+        
+        <!-- Cards Container -->
+        <div style="display: flex; flex-wrap: wrap; align-items: flex-start;">
+            <!-- First Card -->
+            <div class="card" style="width: 18rem; margin-right: 20px; margin-bottom: 20px;">
+                <img src="{{ url_for('static',filename='images/leeds.jpg')}}" class="card-img-top" alt="Leeds">
+                <div class="card-body">
+                    <h5 class="card-title">Leeds</h5>
+                    <p class="card-text">Street: Roundhay Park Velodrome, Roundhay Park Velodrome
+                        Postcode: LS8 2HH
+                    </p>
+                    <a href="#" class="btn btn-primary">Find Us</a>
+                </div>
+            </div>
+            <!-- Second Card -->
+            <div class="card" style="width: 18rem; margin-bottom: 20px;">
+                <img src="{{ url_for('static',filename='images/Kansboroughcastle.jpg')}}" class="card-img-top" alt="Kansboroughcastle">
+                <div class="card-body">
+                    <h5 class="card-title">Knaresborough Castle</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Find Us</a>
+                </div>
+            </div>
+            <!-- Third Card -->
+            <div class="card" style="width: 18rem; margin-right: 20px; margin-top: -10px;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title 3</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
     </div>
-
 {% endblock %}

@@ -219,6 +219,10 @@ def sweet():
 def personalisedhampers():
     return render_template('personalisedhampers.html')
 
+@app.route('/teachonlinebakinglessons')
+def teachonlinebakinglessons():
+    return render_template('teachonlinebakinglessons.html')
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

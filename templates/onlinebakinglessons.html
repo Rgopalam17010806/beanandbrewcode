@@ -5,6 +5,11 @@
     <h1>Join Our Online Baking Lessons</h1>
     <p>Book a spot in our interactive online baking lessons, where you can learn from our expert bakers from the comfort of your home. Perfect for all skill levels.</p>
 
+    {% if current_user.role == "admin" %}
+    <p>You have skills to teach our online baking lessons</p>
+    <a href="{{ url_for('teachonlinebakinglessons') }}" class="btn btn-primary">Click Here</a>
+    {% endif %}
+
     <div class="container">
         <div class="row">
             <!-- Card 1 -->
@@ -110,6 +115,5 @@
             </div>
         </div>
     </div>
+    
 {% endblock %}
-
-

@@ -91,6 +91,35 @@ class NewMenuItemForm(FlaskForm):
     category = SelectField('Category', choices=[('Drinks', 'Drinks'), ('Savory', 'Savory'), ('Sweet', 'Sweet')])
     submit = SubmitField('Add Menu Item')
 
+class OnlineLessonTeacherForm(FlaskForm):
+    firstname = StringField('First Name', validators=[DataRequired()])
+    lastname = StringField('Last Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    nameoffoodordrink = StringField('Name of Food or Drink', validators=[DataRequired()])
+    
+
+    hours = SelectField('Preferred Hour', choices=[(str(i), f'{i:02}') for i in range(24)], coerce=int)
+    minutes = SelectField('Preferred Minute', choices=[(str(i), f'{i:02}') for i in range(0, 60, 5)], coerce=int)
+
+    type_of_item = SelectField('Type of Item', choices=[
+        ('drink', 'Drink'),
+        ('sweet', 'Sweet'),
+        ('savory', 'Savory')
+    ])
+    
+    submit = SubmitField('Submit')
+
+class OnlineLesson(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    firstname = db.Column(db.String(50),nullable=False)
+    lastname = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
+    nameoffoodordrink = db.Column(db.String(100), nullable=False)
+    hours = db.Column(db.Integer, nullable=False)
+    minutes = db.Column(db.Integer, nullable=False)
+    type_of_item = db.Column(db.String(50), nullable=False)
+
+
 
 @app.route('/addnewmenuitem', methods=['GET', 'POST'])
 @login_required
@@ -219,9 +248,25 @@ def sweet():
 def personalisedhampers():
     return render_template('personalisedhampers.html')
 
-@app.route('/teachonlinebakinglessons')
+@app.route('/teachonlinebakinglessons', methods=['GET', 'POST'])
 def teachonlinebakinglessons():
-    return render_template('teachonlinebakinglessons.html')
+    form = OnlineLessonTeacherForm()
+    if form.validate_on_submit():
+        new_lesson = OnlineLesson(
+            firstname=form.firstname.data,
+            lastname=form.lastname.data,
+            email=form.email.data,
+            nameoffoodordrink=form.nameoffoodordrink.data,
+            hours=form.hours.data,
+            minutes=form.minutes.data,
+            type_of_item=form.type_of_item.data
+        )
+        db.session.add(new_lesson)
+        db.session.commit()
+        flash('Your online lesson booking has been submitted!', 'success')
+        return redirect(url_for('home'))
+    return render_template('teachonlinebakinglessons.html', form=form)
+
 
 if __name__ == '__main__':
     with app.app_context():

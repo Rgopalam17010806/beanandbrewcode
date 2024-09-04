@@ -1,28 +1,40 @@
 {% extends "base.html" %}
-{% block title %}Teach Online Baking lessons{% endblock %}
+{% block title %}Online Lesson Booking{% endblock %}
 
 {% block content %}
-
-<form>
-    <div class="form-group">
-      <label for="firstname">First Name</label>
-      <input type="firstname" class="form-control" id="firstname" aria-describedby="firstnameHelp" placeholder="Enter your First Name">
+<h1>Online Lesson Booking</h1>
+<form method="POST" action="{{ url_for('teachonlinebakinglessons') }}">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.firstname.label(class="form-label") }} 
+        {{ form.firstname(class="form-control long-circle") }}
     </div>
-    <div class="form-group">
-      <label for="lastname">Last Name</label>
-      <input type="lastname" class="form-control" id="lastname" aria-describedby="firstnameHelp" placeholder="Enter your First Name">
+    <div class="mb-3">
+        {{ form.lastname.label(class="form-label") }} 
+        {{ form.lastname(class="form-control long-circle") }}
     </div>
-
-    <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <div class="mb-3">
+        {{ form.email.label(class="form-label") }} 
+        {{ form.email(class="form-control long-circle") }}
     </div>
-    <div class="form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    <div class="mb-3">
+        {{ form.nameoffoodordrink.label(class="form-label") }} 
+        {{ form.nameoffoodordrink(class="form-control long-circle") }}
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-
-
+    <div class="mb-3">
+        {{ form.type_of_item.label(class="form-label") }} 
+        {{ form.type_of_item(class="form-select long-circle") }}
+    </div>
+    <div class="mb-3">
+        {{ form.hours.label(class="form-label") }} 
+        {{ form.hours(class="form-select long-circle") }}
+    </div>
+    <div class="mb-3">
+        {{ form.minutes.label(class="form-label") }} 
+        {{ form.minutes(class="form-select long-circle") }}
+    </div>
+    <div class="mb-3">
+        {{ form.submit(class="btn btn-primary long-circle") }}
+    </div>
+</form>
 {% endblock %}

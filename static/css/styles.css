@@ -35,3 +35,33 @@ body {
     color:brown;
 }
 
+.long-circle {
+    border-radius: 50px; /* Adjust this value for more or less curvature */
+    width: 200px; /* Adjust width to fit your needs */
+    height: 50px; /* Adjust height to fit your needs */
+}
+
+/* Optional: Style for buttons if needed */
+.btn.long-circle {
+    border-radius: 50px; /* Adjust this value as needed */
+    width: 150px; /* Adjust width to fit your needs */
+    height: 50px; /* Adjust height to fit your needs */
+    padding: 0; /* Remove default padding */
+    text-align: center; /* Center text */
+    line-height: 50px; /* Align text vertically */
+}
+.long-circle {
+    border-radius: 50px; /* Adjust this value for more or less curvature */
+    width: 900px; /* Adjust width to fit your needs */
+    height: 40px; /* Adjust height to fit your needs */
+}
+
+/* Optional: Style for buttons if needed */
+.btn.long-circle {
+    border-radius: 50px; /* Adjust this value as needed */
+    width: 150px; /* Adjust width to fit your needs */
+    height: 50px; /* Adjust height to fit your needs */
+    padding: 0; /* Remove default padding */
+    text-align: center; /* Center text */
+    line-height: 50px; /* Align text vertically */
+}

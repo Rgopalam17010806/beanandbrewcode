@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash,session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user, login_required
 from flask_wtf import FlaskForm
@@ -244,9 +244,9 @@ def savory():
 def sweet():
     return render_template('sweet.html')
 
-@app.route('/personalisedhampers')
-def personalisedhampers():
-    return render_template('personalisedhampers.html')
+@app.route('/hampers')
+def hampers():
+    return render_template('hampers.html')
 
 @app.route('/teachonlinebakinglessons', methods=['GET', 'POST'])
 def teachonlinebakinglessons():
@@ -267,11 +267,43 @@ def teachonlinebakinglessons():
         return redirect(url_for('home'))
     return render_template('teachonlinebakinglessons.html', form=form)
 
-@app.route('/basket')
-def view_basket():
-    return render_template('basket.html')
+@app.route('/add_to_basket', methods=['POST'])
+def add_to_basket():
+    item_name = request.form.get('item_name')
+    item_price = float(request.form.get('item_price'))
+    quantity = int(request.form.get('quantity'))
+
+    # Initialize the session basket if it doesn't exist
+    if 'basket' not in session:
+        session['basket'] = []
+
+    # Add the item to the session basket
+    session['basket'].append({
+        'name': item_name,
+        'price': item_price,
+        'quantity': quantity
+    })
+
+    # Redirect to the basket page after adding an item
+    return redirect(url_for('your_basket'))
+
+# Route to display the basket page
+@app.route('/your_basket')
+def your_basket():
+    # Get the basket from the session, or use an empty list if it doesn't exist
+    basket = session.get('basket', [])
+    
+    # Calculate the total price
+    total_price = sum(item['price'] * item['quantity'] for item in basket)
+
+    # Render the basket template with the basket items and total price
+    return render_template('basket.html', basket=basket, total_price=total_price)
 
 
+@app.route('/clear_basket')
+def clear_basket():
+    session.pop('cart',None)
+    
 
 if __name__ == '__main__':
     with app.app_context():

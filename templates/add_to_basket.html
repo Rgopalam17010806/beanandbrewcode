@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Your Basket{% endblock %}
+
+{% block content %}
+<h1>Your Basket</h1>
+{% if current_user.basket_items|length == 0 %}
+    <p>Your basket is empty.</p>
+{% else %}
+    <ul>
+        {% for item in current_user.basket_items %}
+            <li>{{ item.name }} - {{ item.quantity }} x ${{ item.price }}</li>
+        {% endfor %}
+    </ul>
+    <p>Total: ${{ current_user.basket_total }}</p>
+    <a href="{{ url_for('checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
+{% endif %}
+{% endblock %}

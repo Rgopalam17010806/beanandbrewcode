@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}Bean and Brew{% endblock %}</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,28 +13,25 @@
     
     <!-- Link to custom CSS file -->
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
-
+    
+    <!-- Custom CSS for Basket Icon -->
     <style>
         .basket-icon {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #f8f9fa;
-            padding: 10px;
-            border-radius: 50%;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
             z-index: 1000;
+            display: none;
         }
-
-        .basket-icon .badge{
-            position: absolute;
-            top: 0;
-            right:0;
-            background-color: red;
-            color: white;
-            border-radius: 50%;
-            padding: 5px 10px;
-            font-size: 12px;
+        .basket-icon img {
+            width: 60px; /* Increase size of the basket icon */
+            height: auto;
+        }
+        /* Show basket icon only on specified pages */
+        .basket-icon.drinks,
+        .basket-icon.sweet,
+        .basket-icon.savory {
+            display: block;
         }
     </style>
 </head>
@@ -78,6 +75,8 @@
                                 <li><a class="dropdown-item" href="{{ url_for('drinks') }}">Drinks</a></li>
                                 <li><a class="dropdown-item" href="{{ url_for('savory') }}">Savory</a></li>
                                 <li><a class="dropdown-item" href="{{ url_for('sweet') }}">Sweet</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('hampers') }}">Hampers</a></li>
+                            </ul>
                             </ul>
                         </li>
                         {% if current_user.is_authenticated and current_user.role == "admin" %}
@@ -122,15 +121,17 @@
     <footer class="text-center mt-4">
     </footer>
 
+    {% if request.endpoint in ['drinks', 'sweet', 'savory','hampers'] %}
+        <a href="{{ url_for('add_to_basket') }}" class="basket-icon {{ request.endpoint }}">
+            <img src="{{ url_for('static', filename='images/basket.png') }}" alt="Basket">
+            {% if current_user.is_authenticated and current_user.basket_items|length > 0 %}
+                <span class="badge badge-pill">{{ current_user.basket_items|length }}</span>
+            {% endif %}
+        </a>
+    {% endif %}
 
-    <a href="{{ url_for('view_basket') }}" class="basket-icon">
-        <i class="fa-regular fa-basket-shopping fa-2x"></i>
-        {% if current_user.is_authenticated and current_user.basket_items|length > 0 %}
-            <span class="badge badge-pill">{{ current_user.basket_items|length }}</span>
-        {% endif %}
-    </a>
     <!-- Bootstrap JS and dependencies (Popper.js) -->
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBlibO+6V2TbGhD+PEUUj5niTw6V9Z8Adn00sLxhku+6M04D" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

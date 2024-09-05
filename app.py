@@ -267,6 +267,11 @@ def teachonlinebakinglessons():
         return redirect(url_for('home'))
     return render_template('teachonlinebakinglessons.html', form=form)
 
+@app.route('/basket')
+def view_basket():
+    return render_template('basket.html')
+
+
 
 if __name__ == '__main__':
     with app.app_context():

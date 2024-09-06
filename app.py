@@ -272,18 +272,15 @@ def add_to_basket():
     item_name = request.form.get('item_name')
     item_price = float(request.form.get('item_price'))
     quantity = int(request.form.get('quantity'))
-
     # Initialize the session basket if it doesn't exist
     if 'basket' not in session:
         session['basket'] = []
-
     # Add the item to the session basket
     session['basket'].append({
         'name': item_name,
         'price': item_price,
         'quantity': quantity
     })
-
     # Redirect to the basket page after adding an item
     return redirect(url_for('your_basket'))
 
@@ -292,18 +289,15 @@ def add_to_basket():
 def your_basket():
     # Get the basket from the session, or use an empty list if it doesn't exist
     basket = session.get('basket', [])
-    
     # Calculate the total price
     total_price = sum(item['price'] * item['quantity'] for item in basket)
-
-    # Render the basket template with the basket items and total price
-    return render_template('basket.html', basket=basket, total_price=total_price)
+    return render_template('basket.html', cart=basket, total_price=total_price)
 
 
 @app.route('/clear_basket')
 def clear_basket():
-    session.pop('cart',None)
-    
+    session['basket'] = []
+    return redirect(url_for('your_basket'))
 
 if __name__ == '__main__':
     with app.app_context():

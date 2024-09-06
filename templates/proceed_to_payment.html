@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Proceed to Payment{% endblock %}
+
+{% block content %}
+<h1>Proceed to Payment</h1>
+{% if basket|length == 0 %}
+    <p>Your basket is empty.</p>
+{% else %}
+    <ul>
+        {% for item in basket %}
+            <li>{{ item.name }} - {{ item.quantity }} x ${{ item.price }}</li>
+        {% endfor %}
+    </ul>
+    <p>Total: ${{ total_price }}</p>
+    <form action="{{ url_for('complete_purchase') }}" method="post">
+        <button type="submit" class="btn btn-primary">Complete Purchase</button>
+    </form>
+{% endif %}
+{% endblock %}

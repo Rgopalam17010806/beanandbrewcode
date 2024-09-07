@@ -109,6 +109,7 @@ class OnlineLessonTeacherForm(FlaskForm):
     
     submit = SubmitField('Submit')
 
+
 class OnlineLesson(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     firstname = db.Column(db.String(50),nullable=False)
@@ -119,6 +120,19 @@ class OnlineLesson(db.Model):
     minutes = db.Column(db.Integer, nullable=False)
     type_of_item = db.Column(db.String(50), nullable=False)
 
+class OnlineBakingLessonBookingForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired()])
+    course_name = SelectField('Category', choices=[('How to bake Butter Croissants', 'How to bake Butter Croissants'), ('How to Bake Chocolate Cake', 'How to Chocolate Cake'), ('How to Bake Sourdough Bread', 'How to Bake Sourdough Bread')])
+    
+
+
+
+
+class OnlineBakingLessonBooking(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(50), nullable=False)
+    course_name = db.Column(db.String(100), nullable=False)
+    timing = db.Column(db.String(50), nullable=False)
 
 
 @app.route('/addnewmenuitem', methods=['GET', 'POST'])
@@ -171,6 +185,8 @@ def login():
         else:
             flash('Invalid username or password', 'danger')
     return render_template('login.html', form=form)
+
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -228,9 +244,26 @@ def tablebooking():
         return redirect(url_for('home'))
     return render_template('tablebooking.html', form=form, today_date=today_date)
 
-@app.route('/onlinelessonbooking')
+@app.route('/onlinelessonbooking', methods=['GET', 'POST'])
+@login_required
 def onlinelessonbooking():
-    return render_template('onlinebakinglessons.html')
+    form = OnlineLessonTeacherForm()
+    if form.validate_on_submit():
+        new_lesson = OnlineLesson(
+            firstname=form.firstname.data,
+            lastname=form.lastname.data,
+            email=form.email.data,
+            nameoffoodordrink=form.nameoffoodordrink.data,
+            hours=form.hours.data,
+            minutes=form.minutes.data,
+            type_of_item=form.type_of_item.data
+        )
+        db.session.add(new_lesson)
+        db.session.commit()
+        flash('Your online lesson booking has been submitted successfully!', 'success')
+        return redirect(url_for('home'))
+    return render_template('onlinebakinglessons.html', form=form)
+
 
 @app.route('/drinks')
 def drinks():
@@ -300,10 +333,17 @@ def clear_basket():
     return redirect(url_for('your_basket'))
 
 
-@app.route('/proceed_to_payment',methods=['GET','POST'])
+@app.route('/proceed_to_payment', methods=['GET', 'POST'])
 def proceed_to_payment():
     if request.method == 'POST':
+        if current_user.is_authenticated:
+            current_user.basket_items.clear()
+            db.session.commit()
+            
+        session.pop('basket', None) 
+
         return redirect(url_for('yourorder'))
+
     return render_template('proceed_to_payment.html')
 
 

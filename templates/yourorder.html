@@ -1,11 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Your Basket{% endblock %}
+
+{% block title %}Your Order{% endblock %}
 
 {% block content %}
-    <h1>Your Basket</h1>
-
+    <h1>Order Confirmation</h1>
+    <p>Thank you for your purchase!</p>
+    
     {% if cart and cart|length > 0 %}
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Item</th>
@@ -21,16 +23,13 @@
                     <td>{{ item.quantity }}</td>
                 </tr>
                 {% endfor %}
-                <tr><td colspan="2"></td><td>£{{total_price}}</td></tr>
+                <tr>
+                    <td colspan="2" class="text-end"><strong>Total Price:</strong></td>
+                    <td><strong>£{{ total_price }}</strong></td>
+                </tr>
             </tbody>
         </table>
     {% else %}
         <p>Your basket is empty!</p>
     {% endif %}
-
-    <a href="{{ url_for('index') }}" class="btn btn-primary">Continue Shopping</a>
-    <a href="{{ url_for('clear_basket') }}" class="btn btn-primary">Clear Basket</a>
-    <a href="{{ url_for('proceed_to_payment')}}" class="btn btn-primary">Proceed to payment</a>
-
-
 {% endblock %}

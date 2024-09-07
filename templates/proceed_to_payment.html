@@ -1,20 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Proceed to Payment{% endblock %}
+{% block title %}Payment{% endblock %}
 
 {% block content %}
-<h1>Proceed to Payment</h1>
-{% if basket|length == 0 %}
-    <p>Your basket is empty.</p>
-{% else %}
-    <ul>
-        {% for item in basket %}
-            <li>{{ item.name }} - {{ item.quantity }} x ${{ item.price }}</li>
-        {% endfor %}
-    </ul>
-    <p>Total: ${{ total_price }}</p>
-    <form action="{{ url_for('complete_purchase') }}" method="post">
-        <button type="submit" class="btn btn-primary">Complete Purchase</button>
+    <h1>Enter Payment Details</h1>
+    <form action="{{ url_for('proceed_to_payment') }}" method="POST">
+        <div class="form-group">
+            <label for="credit_card">Credit Card Number</label>
+            <input type="text" id="credit_card" name="credit_card" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Submit Payment</button>
     </form>
-{% endif %}
 {% endblock %}

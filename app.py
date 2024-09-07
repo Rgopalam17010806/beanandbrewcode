@@ -273,14 +273,14 @@ def add_to_basket():
     item_price = float(request.form.get('item_price'))
     quantity = int(request.form.get('quantity'))
     # Initialize the session basket if it doesn't exist
-    if 'basket' not in session:
-        session['basket'] = []
+    basket = session.get('basket', [])
     # Add the item to the session basket
-    session['basket'].append({
+    basket.append({
         'name': item_name,
         'price': item_price,
         'quantity': quantity
     })
+    session["basket"] = basket
     # Redirect to the basket page after adding an item
     return redirect(url_for('your_basket'))
 
@@ -298,6 +298,19 @@ def your_basket():
 def clear_basket():
     session['basket'] = []
     return redirect(url_for('your_basket'))
+
+
+@app.route('/proceed_to_payment',methods=['GET','POST'])
+def proceed_to_payment():
+    if request.method == 'POST':
+        return redirect(url_for('yourorder'))
+    return render_template('proceed_to_payment.html')
+
+
+@app.route('/yourorder')
+def yourorder():
+    return render_template('yourorder.html')
+
 
 if __name__ == '__main__':
     with app.app_context():

@@ -1,3 +1,5 @@
+import json
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash,session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user, login_required
@@ -123,7 +125,7 @@ class OnlineLesson(db.Model):
 class OnlineBakingLessonBookingForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     course_name = SelectField('Category', choices=[('How to bake Butter Croissants', 'How to bake Butter Croissants'), ('How to Bake Chocolate Cake', 'How to Chocolate Cake'), ('How to Bake Sourdough Bread', 'How to Bake Sourdough Bread')])
-    
+
 
 
 
@@ -264,22 +266,31 @@ def onlinelessonbooking():
         return redirect(url_for('home'))
     return render_template('onlinebakinglessons.html', form=form)
 
+def load_menu():
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_url = os.path.join(SITE_ROOT, "static/data", "menu_items.json")
+    with open(json_url) as menu_file:
+        return json.load(menu_file)
 
 @app.route('/drinks')
 def drinks():
-    return render_template('drinks.html')
+    menu = load_menu()
+    return render_template('drinks.html', hot_drinks=menu['hot drinks'], cold_drinks=menu['cold drinks'])
 
 @app.route('/savory')
 def savory():
-    return render_template('savory.html')
+    menu = load_menu()
+    return render_template('savory.html', sandwiches=menu['sandwiches'], salads=menu['salads'])
 
 @app.route('/sweet')
 def sweet():
-    return render_template('sweet.html')
+    menu = load_menu()
+    return render_template('sweet.html', pastries=menu['pastries'], cakes=menu['cakes'])
 
 @app.route('/hampers')
 def hampers():
-    return render_template('hampers.html')
+    menu = load_menu()
+    return render_template('hampers.html', hampers=menu['hampers'])
 
 @app.route('/teachonlinebakinglessons', methods=['GET', 'POST'])
 def teachonlinebakinglessons():

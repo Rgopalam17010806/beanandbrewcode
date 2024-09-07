@@ -13,6 +13,11 @@
     .drink-card {
         width: 18rem;
     }
+    .card-img-top {
+        width: 100%;
+        height: 15vw;
+        object-fit: cover;
+    }
 </style>
 
 <h1>Wanna drink? Well, you came to the right place!</h1>
@@ -29,18 +34,20 @@
 
     <!-- Hot Drinks Section -->
     <h2 id="hot-drinks">Hot Drinks</h2>
+
     <div class="row">
-        <!-- Hot Drinks Cards -->
+        {% for item in hot_drinks %}
         <div class="col-md-4 mb-4">
             <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/tea.jpg') }}" class="card-img-top" alt="Tea">
+                <img src="{{ url_for('static', filename=item.image_url) }}" class="card-img-top" alt="{{ item.name }}">
                 <div class="card-body">
-                    <h5 class="card-title">Tea</h5>
-                    <p class="card-text">Our tea is made from tea leaves like no other.</p>
-                    <p class="card-text">£1.20</p>
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <p class="card-text">{{ item.description }}</p>
+                    <p class="card-text">{{ item.ingredients }}</p>
+                    <p class="card-text">£ {{ item.price }}</p>
                     <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Tea">
-                        <input type="hidden" name="item_price" value="1.20">
+                        <input type="hidden" name="item_name" value="{{ item.name }}">
+                        <input type="hidden" name="item_price" value="{{ item.price }}">
                         <div class="quantity-controls">
                             <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
                             <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
@@ -51,212 +58,36 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/masalatea.jpg') }}" class="card-img-top" alt="Masala Tea">
-                <div class="card-body">
-                    <h5 class="card-title">Masala Tea</h5>
-                    <p class="card-text">Flavours of India brought into a cup.</p>
-                    <p class="card-text">£1.20</p>
-                    <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Masala Tea">
-                        <input type="hidden" name="item_price" value="1.20">
-                        <div class="quantity-controls">
-                            <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
-                            <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/espresso.jpg') }}" class="card-img-top" alt="Espresso">
-                <div class="card-body">
-                    <h5 class="card-title">Espresso</h5>
-                    <p class="card-text">Need the energy to punch someone? Well, we have you covered.</p>
-                    <p class="card-text">£1.20</p>
-                    <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Esspresso">
-                        <input type="hidden" name="item_price" value="1.20">
-                        <div class="quantity-controls">
-                            <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
-                            <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/hotchocolate.jpg') }}" class="card-img-top" alt="Hot Chocolate">
-                <div class="card-body">
-                    <h5 class="card-title">Hot Chocolate</h5>
-                    <p class="card-text">Sip on our amazing hot chocolate.</p>
-                    <p class="card-text">£1.20</p>
-                    <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Hot Chocoate">
-                        <input type="hidden" name="item_price" value="1.20">
-                        <div class="quantity-controls">
-                            <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
-                            <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/greentea.jpg') }}" class="card-img-top" alt="Green Tea">
-                <div class="card-body">
-                    <h5 class="card-title">Green Tea</h5>
-                    <p class="card-text">Looking for a healthy alternative?</p>
-                    <p class="card-text">£1.20</p>
-                    <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Green Tea">
-                        <input type="hidden" name="item_price" value="1.20">
-                        <div class="quantity-controls">
-                            <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
-                            <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 
     <!-- Cold Drinks Section -->
     <h2 id="cold-drinks">Cold Drinks</h2>
+    
     <div class="row">
-        <!-- Cold Drinks Cards -->
-        <div class="col-md-4 mb-4">
-            <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/icedtea2.jpg') }}" class="card-img-top" alt="Iced Tea">
-                <div class="card-body">
-                    <h5 class="card-title">Iced Tea</h5>
-                    <p class="card-text">Our refreshing iced tea is unbeatable.</p>
-                    <p class="card-text">£1.20</p>
-                    <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Iced Tea">
-                        <input type="hidden" name="item_price" value="1.20">
-                        <div class="quantity-controls">
-                            <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
-                            <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
-                    </form>
+        {% for item in cold_drinks %}
+            <div class="col-md-4 mb-4">
+                <div class="card drink-card">
+                    <img src="{{ url_for('static', filename=item.image_url) }}" class="card-img-top" alt="{{ item.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        <p class="card-text">{{ item.ingredients }}</p>
+                        <p class="card-text">£ {{ item.price }}</p>
+                        <form action="{{ url_for('add_to_basket') }}" method="POST">
+                            <input type="hidden" name="item_name" value="{{ item.name }}">
+                            <input type="hidden" name="item_price" value="{{ item.price }}">
+                            <div class="quantity-controls">
+                                <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
+                                <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
+                                <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/lemonade3.jpg') }}" class="card-img-top" alt="Lemonade">
-                <div class="card-body">
-                    <h5 class="card-title">Lemonade</h5>
-                    <p class="card-text">Made from lemons grown in Italy.</p>
-                    <p class="card-text">£1.20</p>
-                    <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Lemonade">
-                        <input type="hidden" name="item_price" value="1.20">
-                        <div class="quantity-controls">
-                            <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
-                            <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/milkshake.jpg') }}" class="card-img-top" alt="Milkshake">
-                <div class="card-body">
-                    <h5 class="card-title">Milkshake</h5>
-                    <p class="card-text">Thick shakes in strawberry, banana, chocolate, and vanilla.</p>
-                    <p class="card-text">£1.20</p>
-                    <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Milkshake">
-                        <input type="hidden" name="item_price" value="1.20">
-                        <div class="quantity-controls">
-                            <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
-                            <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/icedcoffee2.jpg') }}" class="card-img-top" alt="Iced Coffee">
-                <div class="card-body">
-                    <h5 class="card-title">Iced Coffee</h5>
-                    <p class="card-text">Refreshing iced coffee, just what you need.</p>
-                    <p class="card-text">£1.20</p>
-                    <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Iced Coffee">
-                        <input type="hidden" name="item_price" value="1.20">
-                        <div class="quantity-controls">
-                            <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
-                            <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/water.png') }}" class="card-img-top" alt="Water">
-                <div class="card-body">
-                    <h5 class="card-title">Water</h5>
-                    <p class="card-text">Stay hydrated with our pure water.</p>
-                    <p class="card-text">£1.20</p>
-                    <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Water">
-                        <input type="hidden" name="item_price" value="1.20">
-                        <div class="quantity-controls">
-                            <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
-                            <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card drink-card">
-                <img src="{{ url_for('static', filename='images/orangejuice.jpg') }}" class="card-img-top" alt="Orange Juice">
-                <div class="card-body">
-                    <h5 class="card-title">Orange Juice</h5>
-                    <p class="card-text">Freshly squeezed orange juice.</p>
-                    <p class="card-text">£1.20</p>
-                    <form action="{{ url_for('add_to_basket') }}" method="POST">
-                        <input type="hidden" name="item_name" value="Orange Juice">
-                        <input type="hidden" name="item_price" value="1.20">
-                        <div class="quantity-controls">
-                            <button type="button" class="btn btn-outline-secondary btn-sm decrement" onclick="changeQuantity(this, -1)">-</button>
-                            <input type="number" name="quantity" class="form-control d-inline-block text-center quantity" value="1" min="1" style="width: 50px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm increment" onclick="changeQuantity(this, 1)">+</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Purchase now</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 

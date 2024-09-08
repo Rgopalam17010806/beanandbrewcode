@@ -10,6 +10,8 @@ from flask_bcrypt import Bcrypt
 from datetime import date
 from functools import wraps 
 from flask import abort
+from authlib.integrations.flask_client import OAuth
+from api_key import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -19,6 +21,17 @@ bcrypt = Bcrypt(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+oauth = OAuth(app)
+
+#google = oauth.register(
+#    name = 'google',
+#    cliend_id=CLIENT_ID
+#    client_secret = CLIENT_SECRET,
+#    sever_metadata-uri=
+#)
+
+
 
 @login_manager.user_loader
 def load_user(user_id):

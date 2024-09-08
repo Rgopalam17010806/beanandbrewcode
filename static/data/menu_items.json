@@ -13,12 +13,178 @@
             "description": "Looking for a healthy alternative?",
             "price": 1.20,
             "image_url": "images/drinks/greentea.jpg"
+        }, 
+        {
+            "name": "Masala Tea",
+            "ingredients": "",
+            "description": "Flavours of India brought into a cup",
+            "price": 1.20,
+            "image_url": "images/drinks/masalatea.jpg"
+        },
+        {
+            "name": "Esspresso",
+            "ingredients": "",
+            "description": "Feeling the need to be energetic",
+            "price": 1.20,
+            "image_url": "images/drinks/esspresso.jpg"
+        },
+        {
+            "name": "Hot chocolate",
+            "ingredients": "",
+            "description": "Feeling the need to be energetic",
+            "price": 1.20,
+            "image_url": "images/drinks/hotchocolate2.jpg"
         }
     ],
-    "cold drinks": [],
-    "sandwiches": [],
-    "salads": [],
-    "pastries": [],
-    "cakes": [],
+    "cold drinks": [
+        {
+            "name": "cold brew",
+            "ingredients": "",
+            "description": "our cold brew is amazing",
+            "price": 1.20,
+            "image_url": "images/drinks/coldbrew.jpg"
+        },
+        {
+            "name": "Iced Tea",
+            "ingredients": "",
+            "description": "our iced tea is the most refreshing drink ever",
+            "price": 1.20,
+            "image_url": "images/drinks/icedtea2.jpg"
+        },
+        {
+            "name": "Milkshake",
+            "ingredients": "",
+            "description": "our thick shakes come in vanilla, strawberry, chocolate and bannana",
+            "price": 1.20,
+            "image_url": "images/drinks/milkshake.jpg"
+        },
+        {
+            "name": "Ornage Juice",
+            "ingredients": "",
+            "description": "Made from fresh oranges grown in Brazil",
+            "price": 1.20,
+            "image_url": "images/drinks/orangejuice.jpg"
+        },
+        {
+            "name": "Water",
+            "ingredients": "",
+            "description": "keeps you hyderated",
+            "price": 1.20,
+            "image_url": "images/drinks/water.png"
+        },
+        {
+            "name": "Smoothie",
+            "ingredients": "",
+            "description": "a refreshing blend of fruit that cools you down.",
+            "price": 1.20,
+            "image_url": "images/drinks/smoothie.jpg"
+        }
+    ],
+    "sandwiches": [
+        {
+            "name": "Cheese sandwitch",
+            "ingredients": "Bread and cheese",
+            "description": "made from the finest cheese",
+            "price": 1.20,
+            "image_url": "images/savory/cheesesandwitch.jpg"
+        },
+        {
+            "name": "Chicken and Bacon Sandwitch",
+            "ingredients": "Bread, chicken and Bacon",
+            "description": "Loaded with Bacon and cheese",
+            "price": 1.20,
+            "image_url": "images/savory/chickenandbaconsandwitch.jpg"
+        },
+        {
+            "name": "Egg and Cress Sandwitch",
+            "ingredients": "Bread and Egg and Cress",
+            "description": "everyone like this",
+            "price": 1.20,
+            "image_url": "images/savory/eggandcresssandwitch.jpg"
+        },
+        {
+            "name": "Ham and Cheese sandwitch",
+            "ingredients": "Bread , ham and cheese",
+            "description": "can't go wrong on a classic",
+            "price": 1.20,
+            "image_url": "images/savory/hamandcheese.jpg"
+        },
+        {
+           "name": "Tomato and Cucumber Sandwitch",
+            "ingredients": "Bread, Tomato and Cucumber",
+            "description": "can't go wrong on a classic",
+            "price": 1.20,
+            "image_url": "images/savory/tomatoandcucumbersandwitch.jpg" 
+        }
+    ],
+    "salads": [
+        {
+            "name": "Chicken Ceasar Salad",
+            "ingredients": "Chicken, cheese and Lettuce",
+            "description": "very refreshing ",
+            "price": 1.20,
+            "image_url": "images/savory/chickenceasarsalad.jpg"
+        }
+    ],
+    "pastries": [
+        {
+            "name": "Butter Croissant",
+            "ingredients": "",
+            "description": "Buttery and flaky goodness",
+            "price": 1.20,
+            "image_url": "images/sweet/buttercroissant.jpg"
+        },
+        {
+           "name": "Chocolate Croissant",
+            "ingredients": "",
+            "description": "flaky and chocolatey goodness",
+            "price": 1.20,
+            "image_url": "images/sweet/chocolatecroissant.jpg" 
+        },
+        {
+            "name": "Pain au chocolat",
+            "ingredients": "",
+            "description": "France has been brought to the UK.",
+            "price": 1.20,
+            "image_url": "images/sweet/painauchocolat.jpg"
+        },
+        {
+            "name": "Pecan and Maple plait",
+            "ingredients": "",
+            "description": "sweet party with maple syrup and pecans",
+            "price": 1.20,
+            "image_url": "images/sweet/pecanandmapleplait.jpg"
+        },
+        {
+            "name": "Pistachio Croissant",
+            "ingredients": "",
+            "description": "Pistachio makes it better",
+            "price": 1.20,
+            "image_url": "images/sweet/pistachocroissant.jpg"
+        }
+    ],
+    "cakes": [
+        {
+            "name": "Vanilla Cake",
+            "ingredients": "",
+            "description": "perfect for a swwet treat for youself",
+            "price": 1.20,
+            "image_url": "images/sweet/vanillacake.jpg"
+        },
+        {
+            "name": "Rainbow Marble cake",
+            "ingredients": "",
+            "description": "HOLI SPECIAL!! ",
+            "price": 1.20,
+            "image_url": "images/sweet/rainbowmarblecake.jpg"
+        },
+        {
+            "name": "Chocolate Cake",
+            "ingredients": "",
+            "description": "A chocolate lover's heaven",
+            "price": 1.20,
+            "image_url": "images/sweet/chocolatecake.jpg"
+        }
+    ],
     "hampers": []
 }

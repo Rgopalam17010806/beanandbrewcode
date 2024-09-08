@@ -28,11 +28,18 @@ login_manager.login_view = 'login'
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    firstname = db.Column(db.String(20), nullable=False)
-    lastname = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String(30), nullable=False, unique=True)
-    password = db.Column(db.String(80), nullable=False)
-    role = db.Column(db.String(10),nullable=False,default='user')
+    email = db.Column(db.String(150), unique=True)
+    password = db.Column(db.String(150), nullable=False)
+    basket_items = db.relationship('BasketItem', backref='user', lazy=True, cascade="all, delete-orphan")
+
+
+
+class BasketItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # ForeignKey to User model
 
 
 class TableBooking(db.Model):
@@ -125,10 +132,6 @@ class OnlineLesson(db.Model):
 class OnlineBakingLessonBookingForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     course_name = SelectField('Category', choices=[('How to bake Butter Croissants', 'How to bake Butter Croissants'), ('How to Bake Chocolate Cake', 'How to Chocolate Cake'), ('How to Bake Sourdough Bread', 'How to Bake Sourdough Bread')])
-
-
-
-
 
 class OnlineBakingLessonBooking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -348,12 +351,14 @@ def clear_basket():
 def proceed_to_payment():
     if request.method == 'POST':
         if current_user.is_authenticated:
-            current_user.basket_items.clear()
+            # Clear the user's basket items
+            BasketItem.query.filter_by(user_id=current_user.id).delete()
             db.session.commit()
             
-        session.pop('basket', None) 
+        # Clear the session basket (if you are storing it in the session)
+        session.pop('basket', None)
 
-        return redirect(url_for('yourorder'))
+        return redirect(url_for('home'))
 
     return render_template('proceed_to_payment.html')
 

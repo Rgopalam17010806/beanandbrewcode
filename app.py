@@ -10,19 +10,29 @@ from flask_bcrypt import Bcrypt
 from datetime import date
 from functools import wraps 
 from flask import abort
-from authlib.integrations.flask_client import OAuth
-from api_key import *
+#from authlib.integrations.flask_client import OAuth
+#from api_key import *
+from flask_mail import Mail, Message 
+import os
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'thissecretkey'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'beanandbrew01002@gmail.com'
+app.config['MAIL_PASSWORD'] = 'zjjubvgzltrxgoua'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-oauth = OAuth(app)
+#oauth = OAuth(app)
 
 #google = oauth.register(
 #    name = 'google',
@@ -41,11 +51,12 @@ login_manager.login_view = 'login'
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(150), unique=True)
+    firstname = db.Column(db.String(150), nullable=False)
+    lastname = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
+    role = db.Column(db.String(50), nullable=False)  # Add 'role' field
     basket_items = db.relationship('BasketItem', backref='user', lazy=True, cascade="all, delete-orphan")
-
-
 
 class BasketItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -361,24 +372,22 @@ def clear_basket():
 
 
 @app.route('/proceed_to_payment', methods=['GET', 'POST'])
+@login_required
 def proceed_to_payment():
     if request.method == 'POST':
         if current_user.is_authenticated:
+            email = current_user.email
+            msg = Message(subject="Thank you for your purchase", sender='beanandbrew@gmail.com', recipients=[email], bcc="beanandbrew01002@gmail.com")
+            msg.body = "Your order has been confirmed and we hope you have enjoyed checking out our store."
+            mail.send(msg)
             # Clear the user's basket items
             BasketItem.query.filter_by(user_id=current_user.id).delete()
             db.session.commit()
-            
         # Clear the session basket (if you are storing it in the session)
         session.pop('basket', None)
-
         return redirect(url_for('home'))
-
     return render_template('proceed_to_payment.html')
 
-
-@app.route('/yourorder')
-def yourorder():
-    return render_template('yourorder.html')
 
 
 if __name__ == '__main__':

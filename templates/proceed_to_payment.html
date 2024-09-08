@@ -10,8 +10,10 @@
             <input type="text" id="credit_card" name="credit_card" class="form-control" required>
 
             <label for="credit_card">3 Digit security code</label>
-            <input type="text" id="credit_card" name="credit_card" class="form-control" required>
+            <input type="text" id="credit_card" name="credit_card" class="form-control" required pattren="\d{3}" maxlength="3" minlength="3"title="Please enter your security code">
+
         </div>
         <button type="submit" class="btn btn-primary mt-2">Submit Payment</button>
     </form>
+    
 {% endblock %}

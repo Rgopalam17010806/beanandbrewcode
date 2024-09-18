@@ -8,12 +8,9 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateF
 from wtforms.validators import InputRequired, Length, ValidationError, DataRequired, Email
 from flask_bcrypt import Bcrypt
 from datetime import date
-from functools import wraps 
-from flask import abort
-#from authlib.integrations.flask_client import OAuth
-#from api_key import *
 from flask_mail import Mail, Message 
-import os
+from authlib.integrations.flask_client import OAuth
+from api_key import *
 
 
 app = Flask(__name__)
@@ -29,18 +26,20 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
+
+oauth = OAuth(app)
+
+google = oauth.register(
+    name='google',
+    client_id = CLIENT_ID,
+    client_secret=CLIENT_SECRET,
+    server_metadata_uri = "'https://beanandbrew.onrender.com'",
+    client_kwargs={'scope' : 'bean and brew profile email'}
+)
+
+
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-#oauth = OAuth(app)
-
-#google = oauth.register(
-#    name = 'google',
-#    cliend_id=CLIENT_ID
-#    client_secret = CLIENT_SECRET,
-#    sever_metadata-uri=
-#)
-
 
 
 @login_manager.user_loader
@@ -54,7 +53,7 @@ class User(db.Model, UserMixin):
     firstname = db.Column(db.String(150), nullable=False)
     lastname = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
-    password = db.Column(db.String(150), nullable=False)
+    password = db.Column(db.String(150), nullable=True)
     role = db.Column(db.String(50), nullable=False)  # Add 'role' field
     basket_items = db.relationship('BasketItem', backref='user', lazy=True, cascade="all, delete-orphan")
 
@@ -202,6 +201,9 @@ def home():
 def index():
     return render_template('home.html')
 
+
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -234,12 +236,58 @@ def register():
         return redirect(url_for('home'))
     return render_template('register.html', form=form)
 
+
+@app.route('/dashboard')
+def dashboard():
+    if 'username' in session:
+        return render_template('dashboard.html', username=session['username'])
+    return redirect(url_for('home'))
+
 @login_required
 @app.route('/logout')
 def logout():
     logout_user()
     flash('You have been logged out.', 'success')
     return redirect(url_for('home'))
+
+
+#login for google 
+@app.route('/login_google')
+def login_google():
+    try: 
+        redirect_uri = url_for('authorize',_external=True)
+        return google.authorize_redirect(redirect_uri)
+    except Exception as e: 
+        app.logger.error(f"Error during login:{str(e)}")
+        return "Error occured durinng login", 500
+
+
+
+# authorise for google 
+@app.route("/authorize/google")
+def authroize_google():
+    token = google.authorize_access_token()
+    userinfo_endpoint = google.server_metadata['userinfo_endpoint']
+    resp = google.get(userinfo_endpoint)
+    user_info = resp.json()
+    username = user_info['email']
+
+
+
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        user = User(username=username)
+        db.session.add(user)
+        db.session.commit()
+
+    session['username'] = username
+    session['oauth_token'] = token
+
+    return redirect(url_for('home'))
+
+
+
+
 
 @app.route('/aboutus')
 def aboutus():

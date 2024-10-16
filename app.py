@@ -103,7 +103,7 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember Me')
     submit = SubmitField("Login")
 
-class TableBooking(FlaskForm):
+class TableBookingForm(FlaskForm):
     firstname = StringField('First Name', validators=[DataRequired()])
     lastname = StringField('Last Name', validators=[DataRequired()])
     location = SelectField('Location', choices=[('Leeds', 'Leeds'), ('Harrowgate', 'Harrowgate'), ('Knaresborough castle', 'Knaresborough castle')])
@@ -255,7 +255,7 @@ def locations():
 
 @app.route('/tablebooking', methods=['GET', 'POST'])
 def tablebooking():
-    form = TableBooking()
+    form = TableBookingForm()
     today_date = date.today().strftime('%Y-%m-%d')
     if form.validate_on_submit():
         new_booking = TableBooking(

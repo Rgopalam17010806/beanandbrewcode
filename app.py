@@ -10,7 +10,7 @@ from flask_bcrypt import Bcrypt
 from datetime import date
 from flask_mail import Mail, Message 
 from authlib.integrations.flask_client import OAuth
-from api_key import *
+
 
 
 app = Flask(__name__)
@@ -24,6 +24,8 @@ app.config['MAIL_USERNAME'] = 'beanandbrew01002@gmail.com'
 app.config['MAIL_PASSWORD'] = 'zjjubvgzltrxgoua'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
+CLIENT_ID = '521818669426-2grb3c6jndhp1ohfva773ka0m22ng60s.apps.googleusercontent.com'
+CLIENT_SECRET = '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'
 mail = Mail(app)
 
 
@@ -47,6 +49,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 login_manager.login_view = 'login'
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

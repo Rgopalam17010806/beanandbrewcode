@@ -5,7 +5,6 @@
     <h1>Login</h1>
 
     <form method="POST" action="{{ url_for('login') }}">
-        <input type="button" class="btn login-google" value="Login with Google" onclick="window.location.href = '{{url_for('login_google')}}';">
         {{ form.hidden_tag() }}
         
         {% if form.errors %}

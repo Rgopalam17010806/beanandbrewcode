@@ -1,5 +1,6 @@
 import json
 import os
+
 from flask import Flask, render_template, request, redirect, url_for, flash,session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user, login_required
@@ -9,14 +10,17 @@ from wtforms.validators import InputRequired, Length, ValidationError, DataRequi
 from flask_bcrypt import Bcrypt
 from datetime import date
 from flask_mail import Mail, Message 
-from authlib.integrations.flask_client import OAuth
+
 
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'thissecretkey' #change to random secret key
+
+#configuring SQLALCHEMY 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = 'thissecretkey'
 db = SQLAlchemy(app)
+
 bcrypt = Bcrypt(app)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
@@ -24,20 +28,8 @@ app.config['MAIL_USERNAME'] = 'beanandbrew01002@gmail.com'
 app.config['MAIL_PASSWORD'] = 'zjjubvgzltrxgoua'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
-CLIENT_ID = '521818669426-2grb3c6jndhp1ohfva773ka0m22ng60s.apps.googleusercontent.com'
-CLIENT_SECRET = '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'
 mail = Mail(app)
 
-
-oauth = OAuth(app)
-
-google = oauth.register(
-    name='google',
-    client_id = CLIENT_ID,
-    client_secret=CLIENT_SECRET,
-    server_metadata_uri = "'https://beanandbrew.onrender.com'",
-    client_kwargs={'scope' : 'bean and brew profile email'}
-)
 
 
 login_manager = LoginManager()
@@ -252,44 +244,6 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'success')
     return redirect(url_for('home'))
-
-
-#login for google 
-@app.route('/login_google')
-def login_google():
-    try: 
-        redirect_uri = url_for('authorize',_external=True)
-        return google.authorize_redirect(redirect_uri)
-    except Exception as e: 
-        app.logger.error(f"Error during login:{str(e)}")
-        return "Error occured durinng login", 500
-
-
-
-# authorise for google 
-@app.route("/authorize/google")
-def authroize_google():
-    token = google.authorize_access_token()
-    userinfo_endpoint = google.server_metadata['userinfo_endpoint']
-    resp = google.get(userinfo_endpoint)
-    user_info = resp.json()
-    username = user_info['email']
-
-
-
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        user = User(username=username)
-        db.session.add(user)
-        db.session.commit()
-
-    session['username'] = username
-    session['oauth_token'] = token
-
-    return redirect(url_for('home'))
-
-
-
 
 
 @app.route('/aboutus')

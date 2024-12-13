@@ -44,7 +44,7 @@
         <!-- Bootstrap Navbar -->
         <nav class="navbar navbar-expand-lg" style="background-color: #B5651D;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url_for('home') }}">
+                <a class="navbar-brand" href="{{ url_for('views.home') }}">
                     <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bean and brew" style="width: 80px; height: auto;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,29 +54,29 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                            <a class="nav-link" href="{{ url_for('views.home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('aboutus') }}">About Us</a>
+                            <a class="nav-link" href="{{ url_for('views.aboutus') }}">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('locations') }}">Our Locations</a>
+                            <a class="nav-link" href="{{ url_for('views.locations') }}">Our Locations</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('tablebooking') }}">Table Booking</a>
+                            <a class="nav-link" href="{{ url_for('views.tablebooking') }}">Table Booking</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('onlinelessonbooking') }}">Online Lessons</a>
+                            <a class="nav-link" href="{{ url_for('views.onlinelessonbooking') }}">Online Lessons</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="menuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Menus
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="menuDropdown">
-                                <li><a class="dropdown-item" href="{{ url_for('drinks') }}">Drinks</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for('savory') }}">Savory</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for('sweet') }}">Sweet</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for('hampers') }}">Hampers</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('views.drinks') }}">Drinks</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('views.savory') }}">Savory</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('views.sweet') }}">Sweet</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('views.hampers') }}">Hampers</a></li>
                             </ul>
                             </ul>
                         </li>
@@ -87,8 +87,8 @@
                                 Admin Menu
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                                <li><a class="dropdown-item" href="{{ url_for('teachonlinebakinglessons') }}">Teach Online Baking Lessons</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for('add_new_menu_item') }}">Add New Menu Item</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('views.teachonlinebakinglessons') }}">Teach Online Baking Lessons</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('views.add_new_menu_item') }}">Add New Menu Item</a></li>
                             </ul>
                         </li>
                         {% endif %}
@@ -96,14 +96,14 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         {% if current_user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                                <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                                <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                                <a class="nav-link" href="{{ url_for('views.register') }}">Register</a>
                             </li>
                         {% endif %}
                     </ul>

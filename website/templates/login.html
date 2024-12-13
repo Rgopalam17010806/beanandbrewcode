@@ -4,7 +4,7 @@
 {% block content %}
     <h1>Login</h1>
 
-    <form method="POST" action="{{ url_for('login') }}">
+    <form method="POST" action="{{ url_for('views.login') }}">
         {{ form.hidden_tag() }}
         
         {% if form.errors %}

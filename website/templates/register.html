@@ -54,7 +54,7 @@
 </style>
 <h1>Register Here</h1>
 
-    <form method="POST" action="{{ url_for('register') }}">
+    <form method="POST" action="{{ url_for('views.register') }}">
         {{ form.hidden_tag() }}
 
         {% if form.errors %}

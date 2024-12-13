@@ -7,7 +7,7 @@
 
     {% if current_user.role == "admin" %}
     <p>You have skills to teach our online baking lessons</p>
-    <a href="{{ url_for('teachonlinebakinglessons') }}" class="btn btn-primary">Click Here</a>
+    <a href="{{ url_for('views.teachonlinebakinglessons') }}" class="btn btn-primary">Click Here</a>
     {% endif %}
 
     <!-- Flash Messages -->

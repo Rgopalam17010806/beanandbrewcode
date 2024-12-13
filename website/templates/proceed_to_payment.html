@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>Enter Payment Details</h1>
-    <form action="{{ url_for('proceed_to_payment') }}" method="POST">
+    <form action="{{ url_for('views.proceed_to_payment') }}" method="POST">
         <div class="form-group">
             <label for="credit_card">Credit Card Number</label>
             <input type="text" id="credit_card" name="credit_card" class="form-control" required>

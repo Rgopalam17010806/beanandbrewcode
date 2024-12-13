@@ -3,7 +3,7 @@
 
 {% block content %}
 <h1>Online Lesson Booking</h1>
-<form method="POST" action="{{ url_for('teachonlinebakinglessons') }}">
+<form method="POST" action="{{ url_for('views.teachonlinebakinglessons') }}">
     {{ form.hidden_tag() }}
     <div class="mb-3">
         {{ form.firstname.label(class="form-label") }} 

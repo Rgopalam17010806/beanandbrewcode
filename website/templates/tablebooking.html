@@ -5,7 +5,7 @@
     <h1>Book a Table</h1>
     <p>Use our online booking system to reserve a table at any of our three locations.</p>
 
-    <form method="POST" action="{{ url_for('tablebooking') }}">
+    <form method="POST" action="{{ url_for('views.tablebooking') }}">
         {{ form.hidden_tag() }}
 
         {% if form.errors %}

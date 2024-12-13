@@ -1,16 +1,14 @@
 from flask_login import UserMixin
 
 from website import db
-
-
-class User(db.Model, UserMixin):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    firstname = db.Column(db.String(150), nullable=False)
-    lastname = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
-    password = db.Column(db.String(150), nullable=True)
-    role = db.Column(db.String(50), nullable=False)  # Add 'role' field
-    basket_items = db.relationship('BasketItem', backref='user', lazy=True, cascade="all, delete-orphan")
+    password = db.Column(db.String(150), nullable=True)  # Nullable for Google sign-in users
+    first_name = db.Column(db.String(150), nullable=False)
+    last_name = db.Column(db.String(150), nullable=True)
+    phone = db.Column(db.String(15), nullable=True)
+    type = db.Column(db.String(10), nullable=False)
 
 class BasketItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)

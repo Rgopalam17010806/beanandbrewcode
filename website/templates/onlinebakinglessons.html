@@ -2,212 +2,110 @@
 {% block title %}Online Baking Lessons{% endblock %}
 
 {% block content %}
-    <h1>Join Our Online Baking Lessons</h1>
-    <p>Book a spot in our interactive online baking lessons, where you can learn from our expert bakers from the comfort of your home. Perfect for all skill levels.</p>
+<h1>Join Our Online Baking Lessons</h1>
+<p>Book a spot in our interactive online baking lessons, where you can learn from our expert bakers from the comfort of your home. Perfect for all skill levels.</p>
 
-    {% if current_user.role == "admin" %}
-    <p>You have skills to teach our online baking lessons</p>
-    <a href="{{ url_for('views.teachonlinebakinglessons') }}" class="btn btn-primary">Click Here</a>
+{% if current_user.role == "admin" %}
+<p>You have skills to teach our online baking lessons</p>
+<a href="{{ url_for('views.teachonlinebakinglessons') }}" class="btn btn-primary">Click Here</a>
+{% endif %}
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert-container">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
+{% endwith %}
 
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="alert-container">
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
-                        {{ message }}
+<div class="container">
+    <div class="row">
+        {% set lessons = [
+            {'title': 'How to bake Butter Croissants', 'text': 'Learn how to bake croissants.', 'img': 'buttercroissant.jpg', 'id': '1'},
+            {'title': 'How to Bake Chocolate Cake', 'text': 'Learn how to bake a rich chocolate cake.', 'img': 'chocolatecake.jpg', 'id': '2'},
+            {'title': 'How to Bake Sourdough Bread', 'text': 'Master the art of baking sourdough bread.', 'img': 'sourdough.jpg', 'id': '3'}
+        ] %}
+
+        {% for lesson in lessons %}
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="{{ url_for('static', filename='images/' + lesson.img) }}" alt="{{ lesson.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ lesson.title }}</h5>
+                    <p class="card-text">{{ lesson.text }}</p>
+                    <a href="#" class="btn btn-primary" 
+                       data-bs-toggle="modal" 
+                       data-bs-target="{% if current_user.is_authenticated %}#modalTimings{% else %}#loginModal{% endif %}" 
+                       data-lesson-id="{{ lesson.id }}">{{ lesson.text }}</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Reusable Modal for Authenticated Users -->
+<div class="modal fade" id="modalTimings" tabindex="-1" aria-labelledby="modalTimingsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTimingsLabel">Select Your Preferred Timing</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('views.onlinelessonbooking') }}" method="post">
+                    <input type="hidden" name="lesson_id" id="lesson-id-input">
+                    <div class="mb-3">
+                        <label for="timing" class="form-label">Select a timing:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="timing" id="timing1" value="Monday - 10:00 AM to 12:00 PM" required>
+                            <label class="form-check-label" for="timing1">
+                                Monday - 10:00 AM to 12:00 PM
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="timing" id="timing2" value="Wednesday - 2:00 PM to 4:00 PM" required>
+                            <label class="form-check-label" for="timing2">
+                                Wednesday - 2:00 PM to 4:00 PM
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="timing" id="timing3" value="Friday - 6:00 PM to 8:00 PM" required>
+                            <label class="form-check-label" for="timing3">
+                                Friday - 6:00 PM to 8:00 PM
+                            </label>
+                        </div>
                     </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
-
-    <div class="container">
-        <div class="row">
-            <!-- Card 1 -->
-            <div class="col-md-4 mb-4">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="{{ url_for('static', filename='images/buttercroissant.jpg') }}" alt="Butter Croissant">
-                    <div class="card-body">
-                        <h5 class="card-title">How to bake Butter Croissants</h5>
-                        <p class="card-text">Learn how to bake croissants.</p>
-                        <a href="#" class="btn btn-primary" 
-                           data-bs-toggle="modal" 
-                           data-bs-target="{% if current_user.is_authenticated %}#exampleModalTimings{% else %}#exampleModal{% endif %}">Book Now</a>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Confirm Timing</button>
                     </div>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="col-md-4 mb-4">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="{{ url_for('static', filename='images/chocolatecake.jpg') }}" alt="Chocolate Cake">
-                    <div class="card-body">
-                        <h5 class="card-title">How to Bake Chocolate Cake</h5>
-                        <p class="card-text">Learn how to bake a rich chocolate cake.</p>
-                        <a href="#" class="btn btn-primary" 
-                           data-bs-toggle="modal" 
-                           data-bs-target="{% if current_user.is_authenticated %}#exampleModalTimings2{% else %}#exampleModal{% endif %}">Book Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="col-md-4 mb-4">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="{{ url_for('static', filename='images/sourdough.jpg') }}" alt="Sourdough Bread">
-                    <div class="card-body">
-                        <h5 class="card-title">How to Bake Sourdough Bread</h5>
-                        <p class="card-text">Master the art of baking sourdough bread.</p>
-                        <a href="#" class="btn btn-primary" 
-                           data-bs-toggle="modal" 
-                           data-bs-target="{% if current_user.is_authenticated %}#exampleModalTimings3{% else %}#exampleModal{% endif %}">Book Now</a>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal for authenticated users (Timings for Card 1) -->
-    <div class="modal fade" id="exampleModalTimings" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Select Your Preferred Timing</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ url_for('onlinelessonbooking') }}" method="post">
-                        <div class="mb-3">
-                            <label for="timing" class="form-label">Select a timing:</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="timing" id="timing1" value="Monday - 10:00 AM to 12:00 PM" required>
-                                <label class="form-check-label" for="timing1">
-                                    Monday - 10:00 AM to 12:00 PM
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="timing" id="timing2" value="Wednesday - 2:00 PM to 4:00 PM" required>
-                                <label class="form-check-label" for="timing2">
-                                    Wednesday - 2:00 PM to 4:00 PM
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="timing" id="timing3" value="Friday - 6:00 PM to 8:00 PM" required>
-                                <label class="form-check-label" for="timing3">
-                                    Friday - 6:00 PM to 8:00 PM
-                                </label>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Confirm Timing</button>
-                        </div>
-                    </form>
-                </div>
+<!-- Modal for Unauthenticated Users -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Please Log In</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>You must log in to book an online baking lesson.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ url_for('views.login') }}" class="btn btn-primary">Log In</a>
             </div>
         </div>
     </div>
-
-    <!-- Modal for authenticated users (Timings for Card 2) -->
-    <div class="modal fade" id="exampleModalTimings2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Select Your Preferred Timing</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ url_for('onlinelessonbooking') }}" method="post">
-                        <div class="mb-3">
-                            <label for="timing" class="form-label">Select a timing:</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="timing" id="timing4" value="Tuesday - 11:00 AM to 1:00 PM" required>
-                                <label class="form-check-label" for="timing4">
-                                    Tuesday - 11:00 AM to 1:00 PM
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="timing" id="timing5" value="Thursday - 3:00 PM to 5:00 PM" required>
-                                <label class="form-check-label" for="timing5">
-                                    Thursday - 3:00 PM to 5:00 PM
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="timing" id="timing6" value="Saturday - 4:00 PM to 6:00 PM" required>
-                                <label class="form-check-label" for="timing6">
-                                    Saturday - 4:00 PM to 6:00 PM
-                                </label>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Confirm Timing</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for authenticated users (Timings for Card 3) -->
-    <div class="modal fade" id="exampleModalTimings3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Select Your Preferred Timing</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ url_for('onlinelessonbooking') }}" method="post">
-                        <div class="mb-3">
-                            <label for="timing" class="form-label">Select a timing:</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="timing" id="timing7" value="Monday - 10:00 AM to 12:00 PM" required>
-                                <label class="form-check-label" for="timing7">
-                                    Monday - 10:00 AM to 12:00 PM
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="timing" id="timing8" value="Wednesday - 2:00 PM to 4:00 PM" required>
-                                <label class="form-check-label" for="timing8">
-                                    Wednesday - 2:00 PM to 4:00 PM
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="timing" id="timing9" value="Friday - 6:00 PM to 8:00 PM" required>
-                                <label class="form-check-label" for="timing9">
-                                    Friday - 6:00 PM to 8:00 PM
-                                </label>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Confirm Timing</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for unauthenticated users -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Login Required</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    You haven't logged in or registered yet. Please log in or register to book a lesson.
-                </div>
-                <div class="modal-footer">
-                    <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
-                    <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 {% endblock %}

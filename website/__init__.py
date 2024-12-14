@@ -1,5 +1,6 @@
 import os
 
+import bcrypt
 from click import echo
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy

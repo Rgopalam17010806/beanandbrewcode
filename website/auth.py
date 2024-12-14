@@ -37,7 +37,6 @@ def callback():
     code = request.args.get('code')
     google_provider_config = get_google_provider_config()
     token_endpoint = google_provider_config['token_endpoint']
-
     # Exchange authorization code for a token
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
@@ -45,7 +44,6 @@ def callback():
         redirect_url=request.base_url,
         code=code
     )
-
     token_response = requests.post(
         token_url,
         headers=headers,
@@ -68,7 +66,6 @@ def callback():
         users_email = userinfo_response['email']
         first_name = userinfo_response['given_name']
         last_name = userinfo_response['family_name']
-
         # Find or create the user
         user = User.query.filter_by(email=users_email).first()
         if not user:
@@ -78,6 +75,7 @@ def callback():
                 first_name=first_name,
                 last_name=last_name, 
                 phone='', 
+                role ='user',
                 type='GOOGLE'
             )
             db.session.add(user)
@@ -88,11 +86,15 @@ def callback():
         else:
             login_user(user, remember=True)
             flash('Signed in successfully!', category='success')
+    else:
+        flash('Unable to login', category='error')
 
-        return redirect(url_for('views.home'))
+    if current_user.is_authenticated:
+        # return redirect(url_for('views.home'))
+        return render_template("home.html", user=current_user)
+    else:
+        return render_template("login.html", user=current_user)
 
-    flash('Unable to log in. Please try again.', category='error')
-    return redirect(url_for('auth.login'))
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -100,7 +102,6 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
         user = User.query.filter_by(email=email).first()
-
         if user:
             if user.type == "GOOGLE":
                 flash('Please use Google sign-in.', category='error')
@@ -130,7 +131,6 @@ def signup():
         password = request.form.get("password")
         confirm = request.form.get("confirm")
         phone = request.form.get("phone")
-
         user = User.query.filter_by(email=email).first()
         if user:
             flash('Email already registered. If you used Google sign-in, please use that to log in.', category='error')

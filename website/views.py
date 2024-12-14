@@ -1,8 +1,7 @@
 from datetime import date
 import json
 import os
-
-import bcrypt
+from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from flask_login import login_required, current_user, login_user, logout_user
 from flask_mail import Message
@@ -58,10 +57,10 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Login successful!', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('views.home'))
         else:
             flash('Invalid username or password', 'danger')
     return render_template('login.html', form=form)
@@ -71,21 +70,24 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        #hash the password 
+        hashed_password = generate_password_hash(form.password.data)
 
-
-        new_user = User(firstname=form.firstname.data,
-                        lastname=form.lastname.data,
+        #create a new user instance
+        new_user = User(first_name=form.firstname.data,
+                        last_name=form.lastname.data,
                         email=form.email.data,
                         password=hashed_password,
-                        role=form.role.data
+                        role=form.role.data,
+                        type = "CUSTOM"
         )
 
+        #add user to the database
         db.session.add(new_user)
         db.session.commit()
-
+        login_user(new_user, False)
         flash('Registration successful! You are now logged in.', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('views.home'))
     
     return render_template('register.html', form=form)
 
@@ -94,7 +96,7 @@ def register():
 def dashboard():
     if 'username' in session:
         return render_template('dashboard.html', username=session['username'])
-    return redirect(url_for('home'))
+    return redirect(url_for('views.home'))
 
 
 @login_required
@@ -102,7 +104,7 @@ def dashboard():
 def logout():
     logout_user()
     flash('You have been logged out.', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('views.home'))
 
 
 @views.route('/aboutus')

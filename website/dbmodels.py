@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 
 from website import db
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
@@ -8,6 +9,7 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=True)
     phone = db.Column(db.String(15), nullable=True)
+    role = db.Column(db.String(50), nullable=False)
     type = db.Column(db.String(10), nullable=False)
 
 class BasketItem(db.Model):

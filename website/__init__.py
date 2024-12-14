@@ -2,17 +2,46 @@ import os
 
 import bcrypt
 from click import echo
-from flask import Flask
+from flask import Flask, render_template
+from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 import sqlalchemy as sa
 
 db = SQLAlchemy()
+mail = Mail()
+
 DB_NAME = "database.db"
+
+def send_email(subject, to, body):
+    msg = Message(
+                subject=subject, 
+                sender='ritugopalam6@gmail.com',  # Ensure this matches MAIL_USERNAME
+                recipients=[to]  # Replace with actual recipient's email
+            )
+    msg.body = body
+    mail.send(msg)
+
+def send_template_email(subject, to, template):
+     msg = Message(
+                 subject=subject, 
+                 sender='ritugopalam6@gmail.com',  # Ensure this matches MAIL_USERNAME
+                 recipients=[to]  # Replace with actual recipient's email
+             )
+     msg.html = render_template(template, user=current_user)
+     mail.send(msg)
 
 
 def create_app():
     app = Flask(__name__)
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    # Use your generated App Password
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USE_SSL'] = False
+    app.config['MAIL_USERNAME'] = 'ritugopalam6@gmail.com'  # Use your actual Gmail address
+    app.config['MAIL_PASSWORD'] = os.environ.get('GMAIL_APP_PASSWORD', None)
+    mail=Mail(app)
     app.config['SECRET_KEY'] = 'my_secret_key'
     if os.getenv('DATABASE_URL'):
         app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL').replace("postgres://", "postgresql://", 1)
@@ -37,7 +66,8 @@ def create_app():
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
-
+    
+    
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))

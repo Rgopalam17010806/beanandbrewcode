@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from flask_login import login_required, current_user, login_user, logout_user
 from flask_mail import Message
-from website import db
+from website import db, send_email, send_template_email
 from website.dbmodels import BasketItem, MenuItem, OnlineLesson, TableBooking, User
 from website.formmodels import LoginForm, NewMenuItemForm, OnlineLessonTeacherForm, RegisterForm, TableBookingForm
 
@@ -230,7 +230,7 @@ def add_to_basket():
     })
     session["basket"] = basket
     # Redirect to the basket page after adding an item
-    return redirect(url_for('your_basket'))
+    return redirect(url_for('views.your_basket'))
 
 
 # Route to display the basket page
@@ -254,15 +254,13 @@ def clear_basket():
 def proceed_to_payment():
     if request.method == 'POST':
         if current_user.is_authenticated:
-            email = current_user.email
-            msg = Message(subject="Thank you for your purchase", sender='beanandbrew@gmail.com', recipients=[email],
-                          bcc="beanandbrew01002@gmail.com")
-            msg.body = "Your order has been confirmed and we hope you have enjoyed checking out our store."
-            email.send(msg)
             # Clear the user's basket items
             BasketItem.query.filter_by(user_id=current_user.id).delete()
             db.session.commit()
-        # Clear the session basket (if you are storing it in the session)
-        session.pop('basket', None)
-        return redirect(url_for('home'))
+            # Clear the session basket (if you are storing it in the session)
+            session.pop('basket', None)
+            # email = current_user.email
+            # send_email(subject="Thank you for your purchase",to=email,body="Your order has been confirmed and we hope you have enjoyed checking out our store.")
+            send_template_email(subject="Thank you for your purchase",to=current_user.email,template="emails/purchase.html")
+        return redirect(url_for('views.home'))
     return render_template('proceed_to_payment.html')

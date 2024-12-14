@@ -28,9 +28,9 @@
         <p>Your basket is empty!</p>
     {% endif %}
 
-    <a href="{{ url_for('index') }}" class="btn btn-primary">Continue Shopping</a>
-    <a href="{{ url_for('clear_basket') }}" class="btn btn-primary">Clear Basket</a>
-    <a href="{{ url_for('proceed_to_payment')}}" class="btn btn-primary">Proceed to payment</a>
+    <a href="{{ url_for('views.index') }}" class="btn btn-primary">Continue Shopping</a>
+    <a href="{{ url_for('views.clear_basket') }}" class="btn btn-primary">Clear Basket</a>
+    <a href="{{ url_for('views.proceed_to_payment')}}" class="btn btn-primary">Proceed to payment</a>
 
 
 {% endblock %}

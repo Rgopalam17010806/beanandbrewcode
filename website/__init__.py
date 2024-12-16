@@ -7,6 +7,7 @@ from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 import sqlalchemy as sa
+from werkzeug.security import check_password_hash, generate_password_hash
 
 db = SQLAlchemy()
 mail = Mail()
@@ -61,6 +62,10 @@ def create_app():
             db.drop_all()
             db.create_all()
             app.logger.info('Initialized the database!')
+            password = generate_password_hash("admin123")
+            admin_user = User(email='admin@gmail.com',password=password,first_name='admin',last_name = 'Admin', type='CUSTOM',role='ADMIN')
+            db.session.add(admin_user)
+            db.session.commit()
     else:
         app.logger.info('Database already contains the users table.')
     login_manager = LoginManager()

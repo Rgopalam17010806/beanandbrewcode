@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from sqlalchemy import Nullable
 
 from website import db
 
@@ -45,9 +46,13 @@ class OnlineLesson(db.Model):
     lastname = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     nameoffoodordrink = db.Column(db.String(100), nullable=False)
-    hours = db.Column(db.Integer, nullable=False)
-    minutes = db.Column(db.Integer, nullable=False)
+    day = db.Column(db.String(100), nullable = False)
+    start_time = db.Column(db.Integer, nullable=False)
+    end_time = db.Column(db.Integer, nullable=False)
     type_of_item = db.Column(db.String(50), nullable=False)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref='onlinelessons', lazy = True)
 
 class OnlineBakingLessonBooking(db.Model):
     id = db.Column(db.Integer, primary_key=True)

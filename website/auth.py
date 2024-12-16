@@ -141,7 +141,7 @@ def signup():
         else:
             user = User(
                 email=email,
-                password=generate_password_hash(password, method='sha256'),
+                password=generate_password_hash(password),
                 first_name=firstName,
                 last_name=lastName,
                 phone=phone,

@@ -59,9 +59,22 @@ class OnlineLessonTeacherForm(FlaskForm):
     lastname = StringField('Last Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
     nameoffoodordrink = StringField('Name of Food or Drink', validators=[DataRequired()])
+    day = SelectField('Select the days your are avaliable', choices=[
+        ('monday','Monday'),
+        ('teusday','Teusday'),
+        ('wednesday','wednesday'),
+        ('thursday','Thursday'),
+        ('friday','Friday'),
+        ('saturday','Saturday'),
+        ('sunday','Sunday'),
+    ])
 
-    hours = SelectField('Preferred Hour', choices=[(str(i), f'{i:02}') for i in range(24)], coerce=int)
-    minutes = SelectField('Preferred Minute', choices=[(str(i), f'{i:02}') for i in range(0, 60, 5)], coerce=int)
+    time_choices = [(f'{i:02}', f'{i:02}:00') for i in range(24)] + \
+                   [(f'{i:02}:30', f'{i:02}') for i in range(24)]
+
+    start_time = SelectField('Start time', choices=time_choices)
+    end_time = SelectField('End time', choices=time_choices)
+
 
     type_of_item = SelectField('Type of Item', choices=[
         ('drink', 'Drink'),

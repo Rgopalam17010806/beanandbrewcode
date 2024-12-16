@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Online Lesson Booking{% endblock %}
+{% block title %}Teach online lessons{% endblock %}
 
 {% block content %}
-<h1>Online Lesson Booking</h1>
+<h1>Enter your details here to teach online baking lessons</h1>
 <form method="POST" action="{{ url_for('views.teachonlinebakinglessons') }}">
     {{ form.hidden_tag() }}
     <div class="mb-3">
@@ -25,14 +25,22 @@
         {{ form.type_of_item.label(class="form-label") }} 
         {{ form.type_of_item(class="form-select long-circle") }}
     </div>
+
     <div class="mb-3">
-        {{ form.hours.label(class="form-label") }} 
-        {{ form.hours(class="form-select long-circle") }}
+        {{ form.day.label(class="form-label") }} 
+        {{ form.day(class="form-select long-circle") }}
     </div>
+
     <div class="mb-3">
-        {{ form.minutes.label(class="form-label") }} 
-        {{ form.minutes(class="form-select long-circle") }}
+        {{ form.start_time.label(class="form-label") }} 
+        {{ form.start_time(class="form-select long-circle") }}
     </div>
+
+    <div class="mb-3">
+        {{ form.end_time.label(class="form-label") }} 
+        {{ form.end_time(class="form-select long-circle") }}
+    </div>
+
     <div class="mb-3">
         {{ form.submit(class="btn btn-primary long-circle") }}
     </div>

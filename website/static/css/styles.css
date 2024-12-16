@@ -15,6 +15,7 @@ body {
 .navbar-brand,
 .nav-link {
     color: #fff !important; /* White text for contrast */
+    font-size: 14px;
 }
 
 .nav-link:hover {

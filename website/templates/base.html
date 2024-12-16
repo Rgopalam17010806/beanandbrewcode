@@ -68,6 +68,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('views.onlinelessonbooking') }}">Online Lessons</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('views.viewlessons') }}">View my lessons</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="menuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Menus
@@ -80,7 +83,7 @@
                             </ul>
                             </ul>
                         </li>
-                        {% if current_user.is_authenticated and current_user.role == "admin" %}
+                        {% if current_user.is_authenticated and current_user.role == "ADMIN" %}
                         <!-- Admin Dropdown Menu -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

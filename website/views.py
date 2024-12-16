@@ -15,7 +15,7 @@ views = Blueprint('views', __name__)
 @views.route('/addnewmenuitem', methods=['GET', 'POST'])
 @login_required
 def add_new_menu_item():
-    if db.load_user(current_user.id).role != 'admin':
+    if current_user.role != 'ADMIN':
         flash('Sorry this is only for admins!', 'error')
         return redirect(url_for('home'))
     form = NewMenuItemForm()
@@ -38,7 +38,7 @@ def add_new_menu_item():
         db.session.add(new_item)
         db.session.commit()
         flash('Menu item added successfully!', 'success')
-        return redirect(url_for('add_new_menu_item'))
+        return redirect(url_for('views.add_new_menu_item'))
     return render_template('addnewmenuitem.html', form=form)
 
 
@@ -146,6 +146,7 @@ def tablebooking():
 @views.route('/onlinelessonbooking', methods=['GET', 'POST'])
 @login_required
 def onlinelessonbooking():
+    onlinelessons = OnlineLesson.query.filter_by(user_id=current_user.id).all()
     form = OnlineLessonTeacherForm()
     if form.validate_on_submit():
         new_lesson = OnlineLesson(
@@ -161,7 +162,7 @@ def onlinelessonbooking():
         db.session.commit()
         flash('Your online lesson booking has been submitted successfully!', 'success')
         return redirect(url_for('home'))
-    return render_template('onlinebakinglessons.html', form=form)
+    return render_template('onlinebakinglessons.html', form=form, onlinelessons = onlinelessons)
 
 
 def load_menu():
@@ -169,6 +170,18 @@ def load_menu():
     json_url = os.path.join(SITE_ROOT, "static/data", "menu_items.json")
     with open(json_url) as menu_file:
         return json.load(menu_file)
+    
+@views.route('/viewlessons')
+@login_required
+def viewlessons():
+    #fetch the lessons associated with the currently logged in user
+    lessons =OnlineLesson.query.filter_by(user_id=current_user.id).all()
+
+    # if no lessons are booked, show a message 
+    if not lessons:
+        flash('You have not booked any lessons let!', 'info')
+
+    return render_template('viewlessons.html', lessons=lessons)
 
 
 @views.route('/drinks')
@@ -204,14 +217,16 @@ def teachonlinebakinglessons():
             lastname=form.lastname.data,
             email=form.email.data,
             nameoffoodordrink=form.nameoffoodordrink.data,
-            hours=form.hours.data,
-            minutes=form.minutes.data,
-            type_of_item=form.type_of_item.data
+            day = form.day.data,
+            start_time=form.start_time.data,
+            end_time=form.end_time.data,
+            type_of_item=form.type_of_item.data,
+            user_id = current_user.id
         )
         db.session.add(new_lesson)
         db.session.commit()
         flash('Your online lesson booking has been submitted!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('views.home'))
     return render_template('teachonlinebakinglessons.html', form=form)
 
 

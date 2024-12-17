@@ -235,7 +235,7 @@ def add_to_basket():
     item_name = request.form.get('item_name')
     item_price = float(request.form.get('item_price'))
     quantity = int(request.form.get('quantity'))
-    # Initialize the session basket if it doesn't exist
+    # Initialise the session basket if it doesn't exist
     basket = session.get('basket', [])
     # Add the item to the session basket
     basket.append({
